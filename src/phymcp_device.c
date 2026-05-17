@@ -10,7 +10,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-#define PHYMCP_DISCOVER_JITTER_MS 1000
+#define PHYMCP_DISCOVER_JITTER_MS 300
 #define PHYMCP_DUP_CACHE_MAX 16
 #define PHYMCP_DUP_CACHE_TTL_US (5 * 1000 * 1000)
 #define PHYMCP_DEFAULT_TOOL_LIMIT 8

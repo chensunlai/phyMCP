@@ -33,7 +33,7 @@ Device layer:
 
 - Owns the device identity and tool registry.
 - Handles `discover`, `tools/list`, `tool/call`, and `ping`.
-- Adds 0-1000 ms random jitter to discovery responses.
+- Adds 0-300 ms random jitter to discovery responses.
 - Keeps a small duplicate cache for recent tool calls.
 
 Host layer:
@@ -74,7 +74,7 @@ Flags:
 The component intentionally avoids a heavy session protocol:
 
 - Broadcast scan: send once, optionally retry once above this component.
-- Device discovery response: random delay from 0 to 1000 ms.
+- Device discovery response: random delay from 0 to 300 ms.
 - Unicast request: retry up to two times above this component using the same
   `xid`.
 - Tool call duplicate handling: device cache prevents repeated side effects

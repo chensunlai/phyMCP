@@ -178,7 +178,7 @@ void app_main(void)
 
 ## Reliability Model
 
-- Broadcast discovery: devices respond after random 0-1000 ms jitter.
+- Broadcast discovery: devices respond after random 0-300 ms jitter.
 - Unicast requests: upper layers may retry with the same `xid`.
 - Duplicate tool calls: devices keep a small duplicate cache to avoid
   repeating side effects during the cache window.
@@ -220,10 +220,7 @@ that talks to a phyMCP host firmware through the plain-text serial bridge. It
 does not hardcode physical device tools; it exposes scan, device cache,
 tool-list, generic tool-call, and ping operations.
 
-Run it with the existing `py311` conda environment:
-
 ```powershell
-conda activate py311
 python examples/host_mcp_interface/phymcp-host-interface.py --serial-port COM5 --http-port 11451
 ```
 
