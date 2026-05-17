@@ -1,0 +1,20 @@
+# ESP-IDF generated output
+build*/
+managed_components/
+dependencies.lock
+sdkconfig
+sdkconfig.old
+sdkconfig.host
+sdkconfig.device
+
+# Python/tooling cache
+__pycache__/
+*.py[cod]
+/.pytest_cache/
+/.mypy_cache/
+/.ruff_cache/
+
+# Local editor/cache files
+/.cache/
+/.vscode/
+*.log

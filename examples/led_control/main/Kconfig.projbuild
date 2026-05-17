@@ -1,0 +1,113 @@
+menu "phyMCP App"
+
+    choice PHYMCP_APP_ROLE
+        prompt "Firmware role"
+        default PHYMCP_APP_DEVICE
+
+        config PHYMCP_APP_DEVICE
+            bool "Device firmware"
+
+        config PHYMCP_APP_HOST
+            bool "Host firmware"
+    endchoice
+
+endmenu
+
+menu "phyMCP LED Device Demo"
+    depends on PHYMCP_APP_DEVICE
+
+    config PHYMCP_DEMO_LED_GPIO
+        int "On-board LED GPIO"
+        default 8
+        default 2 if IDF_TARGET_ESP32
+
+    config PHYMCP_DEMO_LED_ACTIVE_HIGH
+        bool "LED is active high"
+        default y if IDF_TARGET_ESP32
+        default n
+
+endmenu
+
+menu "phyMCP Host Serial Bridge"
+    depends on PHYMCP_APP_HOST
+
+    choice PHYMCP_HOST_SERIAL_BACKEND
+        prompt "Host serial backend"
+        default PHYMCP_HOST_SERIAL_USB_SERIAL_JTAG if SOC_USB_SERIAL_JTAG_SUPPORTED
+        default PHYMCP_HOST_SERIAL_UART
+
+        config PHYMCP_HOST_SERIAL_USB_SERIAL_JTAG
+            bool "USB Serial/JTAG native USB"
+            depends on SOC_USB_SERIAL_JTAG_SUPPORTED
+
+        config PHYMCP_HOST_SERIAL_UART
+            bool "UART"
+    endchoice
+
+    config PHYMCP_HOST_USB_RX_BUFFER_SIZE
+        int "USB Serial/JTAG RX buffer size"
+        depends on PHYMCP_HOST_SERIAL_USB_SERIAL_JTAG
+        default 4096
+
+    config PHYMCP_HOST_USB_TX_BUFFER_SIZE
+        int "USB Serial/JTAG TX buffer size"
+        depends on PHYMCP_HOST_SERIAL_USB_SERIAL_JTAG
+        default 4096
+
+    config PHYMCP_HOST_UART_PORT
+        int "UART port"
+        depends on PHYMCP_HOST_SERIAL_UART
+        range 0 2
+        default 0
+
+    config PHYMCP_HOST_UART_TX_GPIO
+        int "UART TX GPIO"
+        depends on PHYMCP_HOST_SERIAL_UART
+        range -1 48
+        default 21 if IDF_TARGET_ESP32C3
+        default 1
+
+    config PHYMCP_HOST_UART_RX_GPIO
+        int "UART RX GPIO"
+        depends on PHYMCP_HOST_SERIAL_UART
+        range -1 48
+        default 20 if IDF_TARGET_ESP32C3
+        default 3
+
+    config PHYMCP_HOST_UART_BAUD_RATE
+        int "UART baud rate"
+        depends on PHYMCP_HOST_SERIAL_UART
+        default 115200
+
+    config PHYMCP_HOST_UART_RX_BUFFER_SIZE
+        int "UART RX buffer size"
+        depends on PHYMCP_HOST_SERIAL_UART
+        default 4096
+
+    config PHYMCP_HOST_UART_TX_BUFFER_SIZE
+        int "UART TX buffer size"
+        depends on PHYMCP_HOST_SERIAL_UART
+        default 4096
+
+    config PHYMCP_HOST_SERIAL_RX_TASK_STACK
+        int "Serial RX task stack"
+        default 4096
+
+    config PHYMCP_HOST_SERIAL_RX_TASK_PRIORITY
+        int "Serial RX task priority"
+        default 5
+
+    config PHYMCP_HOST_SCAN_WINDOW_MS
+        int "Default scan collection window"
+        default 1500
+
+    config PHYMCP_HOST_COMMAND_TIMEOUT_MS
+        int "Default command timeout"
+        default 1000
+
+    config PHYMCP_HOST_ESPNOW_CHANNEL
+        int "ESP-NOW channel"
+        range 1 14
+        default 6
+
+endmenu

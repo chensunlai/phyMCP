@@ -1,0 +1,12 @@
+menu "phyMCP"
+
+    config PHYMCP_DEFAULT_ESPNOW_CHANNEL
+        int "Default ESP-NOW channel"
+        range 1 14
+        default 6
+        help
+            Default channel used by phymcp_transport_default_config().
+            Applications may still override phymcp_transport_config_t.channel
+            before calling phymcp_host_init() or phymcp_device_init().
+
+endmenu

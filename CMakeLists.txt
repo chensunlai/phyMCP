@@ -1,0 +1,17 @@
+idf_component_register(
+    SRCS
+        "src/phymcp_device.c"
+        "src/phymcp_frame.c"
+        "src/phymcp_host.c"
+        "src/phymcp_transport_espnow.c"
+    INCLUDE_DIRS
+        "include"
+    REQUIRES
+        esp_event
+        esp_netif
+        esp_timer
+        esp_wifi
+        freertos
+        json
+        nvs_flash
+)
