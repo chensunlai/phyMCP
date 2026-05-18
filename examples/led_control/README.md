@@ -29,6 +29,7 @@ idf.py -B build_host -D SDKCONFIG=sdkconfig.host -D SDKCONFIG_DEFAULTS=sdkconfig
 ```text
 help
 scan [name_prefix] [window_ms]
+scan [window_ms]
 tools <mac> [limit]
 call <mac> <tool_name> <json_arguments>
 ping <mac>

@@ -119,6 +119,20 @@ static char *next_token(char **cursor)
     return token;
 }
 
+static bool is_uint_token(const char *token)
+{
+    if (!token || *token == '\0') {
+        return false;
+    }
+    while (*token) {
+        if (!isdigit((unsigned char)*token)) {
+            return false;
+        }
+        token++;
+    }
+    return true;
+}
+
 static void host_event_cb(const phymcp_host_event_t *event, void *ctx)
 {
     (void)ctx;
@@ -161,6 +175,7 @@ static void print_help(void)
     serial_write_raw(
         "commands:\r\n"
         "  scan [name_prefix] [window_ms]\r\n"
+        "  scan [window_ms]\r\n"
         "  tools <mac> [limit]\r\n"
         "  call <mac> <tool_name> <json_arguments>\r\n"
         "  ping <mac>\r\n"
@@ -168,6 +183,7 @@ static void print_help(void)
         strlen(
             "commands:\r\n"
             "  scan [name_prefix] [window_ms]\r\n"
+            "  scan [window_ms]\r\n"
             "  tools <mac> [limit]\r\n"
             "  call <mac> <tool_name> <json_arguments>\r\n"
             "  ping <mac>\r\n"
@@ -176,9 +192,16 @@ static void print_help(void)
 
 static void handle_scan(char *args)
 {
-    char *prefix = next_token(&args);
-    char *window_s = next_token(&args);
+    char *first = next_token(&args);
+    char *second = next_token(&args);
+    char *prefix = first;
+    char *window_s = second;
     uint32_t window_ms = CONFIG_PHYMCP_HOST_SCAN_WINDOW_MS;
+
+    if (first && !second && is_uint_token(first)) {
+        prefix = NULL;
+        window_s = first;
+    }
     if (window_s) {
         window_ms = (uint32_t)strtoul(window_s, NULL, 10);
     }
@@ -193,8 +216,8 @@ static void handle_scan(char *args)
         return;
     }
 
-    serial_printf("ok cmd=scan xid=%u window=%lu\r\n",
-                  xid, (unsigned long)window_ms);
+    serial_printf("ok cmd=scan xid=%u window=%lu prefix=%s\r\n",
+                  xid, (unsigned long)window_ms, prefix ? prefix : "");
     vTaskDelay(pdMS_TO_TICKS(window_ms));
     serial_printf("scanDone xid=%u\r\n", xid);
 }

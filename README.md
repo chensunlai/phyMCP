@@ -213,6 +213,9 @@ cd examples/led_control
 idf.py -B build_host -D SDKCONFIG=sdkconfig.host -D SDKCONFIG_DEFAULTS=sdkconfig.host.defaults build flash monitor
 ```
 
+Host scan commands accept both `scan 3000` for a longer window and
+`scan esp32 3000` for prefix-filtered discovery.
+
 ## Host Interface
 
 `examples/host_mcp_interface/phymcp-host-interface.py` is a generic MCP server
